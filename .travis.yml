@@ -127,7 +127,7 @@ script:
   - tesseract --version
   - qpdf --version
   - |
-    SITE=$(python3 -c "import site; print(site.getsitepackages()[0])")
+    SITE=$(find /home/travis -type d -name 'site-packages' | head -1)
     echo $SITE
     echo 'import coverage; coverage.process_startup()' | sudo tee -a $SITE/sitecustomize.py
     cat $SITE/sitecustomize.py
