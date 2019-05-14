@@ -38,6 +38,7 @@ from ocrmypdf.pdfinfo import Colorspace, Encoding, PdfInfo
 
 check_ocrmypdf = pytest.helpers.check_ocrmypdf
 run_ocrmypdf = pytest.helpers.run_ocrmypdf
+testing_coverage = pytest.helpers.testing_coverage
 spoof = pytest.helpers.spoof
 
 
@@ -562,6 +563,7 @@ def test_stdin(spoof_tesseract_noop, ocrmypdf_exec, resources, outpdf):
         assert p.returncode == ExitCode.ok
 
 
+@pytest.mark.skipif(testing_coverage(), reason="coverage uses stdout")
 def test_stdout(spoof_tesseract_noop, ocrmypdf_exec, resources, outpdf):
     input_file = str(resources / 'francais.pdf')
     output_file = str(outpdf)
@@ -996,7 +998,8 @@ def test_bad_locale():
     env['LC_ALL'] = 'C'
 
     p, out, err = run_ocrmypdf('a', 'b', env=env)
-    assert out == '', "stdout not clean"
+    if not testing_coverage():
+        assert out == '', "stdout not clean"
     assert p.returncode != 0
     assert 'configured to use ASCII as encoding' in err, "should whine"
 
@@ -1011,7 +1014,8 @@ def test_bad_utf8(spoof_tess_bad_utf8, renderer, resources, no_outpdf):
         env=spoof_tess_bad_utf8,
     )
 
-    assert out == '', "stdout not clean"
+    if not testing_coverage():
+        assert out == '', "stdout not clean"
     assert p.returncode != 0
     assert 'not utf-8' in err, "should whine about utf-8"
     assert '\\x96' in err, 'should repeat backslash encoded output'
@@ -1049,7 +1053,8 @@ def test_dev_null(spoof_tesseract_noop, resources):
         resources / 'trivial.pdf', os.devnull, '--force-ocr', env=spoof_tesseract_noop
     )
     assert p.returncode == 0, "could not send output to /dev/null"
-    assert len(out) == 0, "wrote to stdout"
+    if not testing_coverage():
+        assert len(out) == 0, "wrote to stdout"
 
 
 def test_output_is_dir(spoof_tesseract_noop, resources, outdir):

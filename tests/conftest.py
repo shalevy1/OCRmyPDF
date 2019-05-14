@@ -63,6 +63,11 @@ def running_in_travis():
 
 
 @pytest.helpers.register
+def testing_coverage():
+    return 'COV_CORE_SOURCE' in os.environ
+
+
+@pytest.helpers.register
 def needs_pdfminer(fn):
     try:
         import pdfminer
@@ -166,7 +171,7 @@ def check_ocrmypdf(input_file, output_file, *args, env=None):
     assert p.returncode == 0
     assert os.path.exists(str(output_file)), "Output file not created"
     assert os.stat(str(output_file)).st_size > 100, "PDF too small or empty"
-    if 'self._collectors' not in out:
+    if not testing_coverage():
         # pytest-cov sends some data over stdout, which begins with self.collectors,
         # so allow that; otherwise we want silence from stdout
         assert out == "", (
