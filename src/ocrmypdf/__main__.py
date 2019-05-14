@@ -931,11 +931,13 @@ def check_environ(options, _log):
             )
     if 'PYTEST_CURRENT_TEST' in os.environ:
         os.environ['_OCRMYPDF_TEST_INFILE'] = options.input_file
+    print(os.environ, file=sys.stderr)
     if 'COV_CORE_SOURCE' in os.environ or 'TRAVIS' in os.environ:
         with suppress(ImportError):
             from pytest_cov.embed import cleanup_on_sigterm
 
             cleanup_on_sigterm()
+            print("cleanup_on_sigterm installed", file=sys.stderr)
 
 
 def check_input_file(options, _log, start_input_file):
