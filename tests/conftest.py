@@ -166,12 +166,15 @@ def check_ocrmypdf(input_file, output_file, *args, env=None):
     assert p.returncode == 0
     assert os.path.exists(str(output_file)), "Output file not created"
     assert os.stat(str(output_file)).st_size > 100, "PDF too small or empty"
-    assert out == "", (
-        "The following was written to stdout and should not have been: \n"
-        + "<stdout>\n"
-        + out
-        + "\n</stdout>"
-    )
+    if 'self._collectors' not in out:
+        # pytest-cov sends some data over stdout, which begins with self.collectors,
+        # so allow that; otherwise we want silence from stdout
+        assert out == "", (
+            "The following was written to stdout and should not have been: \n"
+            + "<stdout>\n"
+            + out
+            + "\n</stdout>"
+        )
     return output_file
 
 
