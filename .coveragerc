@@ -1,7 +1,8 @@
 [run]
 branch = True
 concurrency = multiprocessing
-source = ocrmypdf/
+source = src
+parallel = True
 
 [report]
 exclude_lines =
