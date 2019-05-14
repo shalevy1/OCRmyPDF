@@ -133,6 +133,7 @@ script:
     cat $SITE/sitecustomize.py
   - pytest -n 0 --cov=./ tests/test_main.py::test_quick
   - ls -a
+  - cat dump.txt
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
