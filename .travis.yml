@@ -127,7 +127,8 @@ script:
   - tesseract --version
   - qpdf --version
   - |
-    SITE=$(python -c "import site; print(site.getsitepackages()[0])")
+    SITE=$(python3 -c "import site; print(site.getsitepackages()[0])")
+    echo $SITE
     echo 'import coverage; coverage.process_startup()' | sudo tee -a $SITE/sitecustomize.py
     cat $SITE/sitecustomize.py
   - pytest -n auto --cov=./ tests/test_main.py::test_quick
