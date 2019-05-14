@@ -126,6 +126,10 @@ install:
 script:
   - tesseract --version
   - qpdf --version
+  - |
+    SITE=$(python -c "import site; print(site.getsitepackages()[0])")
+    echo 'import coverage; coverage.process_startup()'  >> $SITE/sitecustomize.py
+    cat $SITE/sitecustomize.py
   - pytest -n auto --cov=./ tests/test_main.py::test_quick
 
 after_success:
