@@ -126,7 +126,7 @@ install:
 script:
   - tesseract --version
   - qpdf --version
-  - pytest -n auto --cov=./
+  - pytest -n auto --cov=./ tests/test_main.py::test_quick
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
