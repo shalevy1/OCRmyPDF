@@ -1,8 +1,6 @@
-# Coverage isn't really compatible with subprocesses so results are unreliable
-
 [run]
 branch = True
-#concurrency = multiprocessing
+concurrency = multiprocessing
 source = ocrmypdf/
 
 [report]
