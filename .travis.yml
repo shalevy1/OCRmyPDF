@@ -129,7 +129,7 @@ script:
   - pytest -n auto --cov=./
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 
 deploy:
   # release for main pypi
