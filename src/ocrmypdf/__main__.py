@@ -932,7 +932,9 @@ def check_environ(options, _log):
     if 'PYTEST_CURRENT_TEST' in os.environ:
         os.environ['_OCRMYPDF_TEST_INFILE'] = options.input_file
     if 'TRAVIS' in os.environ:
-        os.environ['COVERAGE_PROCESS_START'] = Path(__file__).parents[2] / '.coveragerc'
+        os.environ['COVERAGE_PROCESS_START'] = Path(__file__).parents[2] / Path(
+            '.coveragerc'
+        )
         with suppress(ImportError):
             import coverage
 
